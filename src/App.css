@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap');
+
+body, html {
+  height: 100%;
+  background-image: url(./images/bg.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%; 
+}
