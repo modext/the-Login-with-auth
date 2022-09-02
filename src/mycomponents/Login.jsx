@@ -26,6 +26,7 @@ const styles = ( theme )=> ({
 
 
 export default function Login() {
+
   const navigate = useNavigate()
  
   const [username, setUserName] = useState('')
@@ -50,26 +51,17 @@ export default function Login() {
           }}
         >
             
-          
-          {/* <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              width: '30%',
-              alignItems: 'center',
-              marginBottom: '0.82rem',
-            }}
-          >
-            <Logo />
-          </Box>    */}
               <Paper
+                variant='outlined'
+                elevation={12}
                   sx={{
                     width: {xs:'70%', sm:'60%',lg:'23%'},
                     alignItems: 'center',
-                    padding: {xs:'2rem 1.5rem',sm:'2.5rem 2.5rem',md:'3rem 3.5rem', lg:'3.875rem 4.9375rem'},
-                    borderRadius: '12px',
+                    padding: {xs:'1rem 0.5rem',sm:'1.5rem 1.5rem',md:'2rem 2.5rem', lg:'2.875rem 3.9375rem'},
+                    borderRadius: '50px',
                     borderColor: 'primary',
                     flexDirection: 'row',
+                    border: "20px solid green"
                   }}
               >
                 <Box
@@ -91,7 +83,7 @@ export default function Login() {
                     marginTop: '-1rem',
                   }}
                   >
-                    Welcome Back!
+                    Welcome!
                   </Typography>
 
 
@@ -258,7 +250,11 @@ export default function Login() {
                     onClick={() => navigate("/dashboard")} 
                     fullWidth type="submit" variant='contained'
                     sx={{
-                      backgroundColor: '#4834D4',
+                      "&:hover": {
+                        backgroundColor: "#30F1C4",
+                        color: "#16453A",
+                      },
+                      backgroundColor: '#1CBD91',
                       textTransform: 'none'
                       
                     }}
@@ -270,7 +266,7 @@ export default function Login() {
                         fontStyle: 'normal',
                         fontWeight: '500',
                         fontSize: '0.75rem',
-                        color: '#13113F',
+                        color: '#1CBD91',
                         lineHeight: '150%',
                       }} 
                     >
@@ -278,7 +274,12 @@ export default function Login() {
                 onClick={() => navigate("/register")}
                 sx={{ 
                   textTransform: 'none',
+                  fontFamily: 'Rubik',
+                  fontStyle: 'normal',
+                  fontWeight: '500',
+                  fontSize: '0.9rem',
                   marginTop:'-3px',
+                  color: "#16453A",
                 }}
                 >
                   Sign Up</Button>

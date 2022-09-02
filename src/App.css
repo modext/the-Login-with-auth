@@ -2,7 +2,8 @@
 
 body, html {
   height: 100%;
-  background-image: url(./images/bg.png);
+  /* background-image: url(./images/bg.png); */
+  background-color: rgb(18, 75, 75);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
