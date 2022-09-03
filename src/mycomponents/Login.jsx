@@ -8,7 +8,8 @@ import  { checkboxClasses } from "@mui/material/Checkbox"
 // import { textTransform } from '@mui/system';
  import { useSelector, useDispatch } from 'react-redux'
 
-// import {useForm} from 'react-hook-form'
+import {useForm} from 'react-hook-form'
+import axios from 'axios'
 //  import { register, reset } from '../services/authSlice';
 
 const styles = ( theme )=> ({
@@ -27,15 +28,112 @@ const styles = ( theme )=> ({
 
 export default function Login() {
 
+  // from JWT AUTHEN
+  const submitForm = (data) => {
+    console.log(data.email)
+  }
+
+  const { register, } = useForm()
+  // const { register, handleSubmit } = useForm()
+  //JST ends
+
+  // From Normal Axios own
+  const USER_REGEX = /^\[A-z\][A-z0-9-_]{3,23}$/;
+  const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
+  const [validEmail, setValidEmail] = useState(false);
+  const [validName, setValidName] = useState(false);
+  const [userFocus, setUserFocus] = useState(false);
+  const [password, setPassword] = useState("");
+  const [validPwd, setValidPwd] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  // const [user, setUser] = useState("");
+  const [username, setUserName] = useState('')
+
+  // useEffect(() => {
+  //   userRef.current.focus();
+  // }, []);
+  useEffect(() => {
+    setUserName(USER_REGEX.test(username));
+  }, [username]);
+  // useEffect(() => {
+  //   setValidEmail(USER_REGEX.test(email));
+  // }, [email]);
+  useEffect(() => {
+    setValidPwd(PWD_REGEX.test(password));
+  }, [password]);
+  // useEffect(() => {
+  //   setErrMsg("");
+  // }, [user, password]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const v1 = USER_REGEX.test(username);
+    const v2 = PWD_REGEX.test(password);
+    if (!v1 || !v2) {
+      setErrMsg("Invalid Entry");
+      return;
+    }
+
+    var config = {
+      method: 'post',
+      url: 'https://adminstaging.airgate.ng/index.php/api/auth/login',
+      headers: { },
+      data : {
+        username,
+        password,
+      }          
+    };
+
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    // try {
+    //   const response = await axios.post(
+        
+    //     JSON.stringify({ user, password }),
+    //     {
+    //       headers: { "Content-Type": "application/json" },
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   //clear state and controlled inputs
+    //   setUser("");
+    //   setPwd("");
+    // } catch (err) {
+    //   if (!err?.response) {
+    //     setErrMsg("No Server Response");
+    //   } else if (err.response?.status === 409) {
+    //     setErrMsg("Username Taken");
+    //   } else {
+    //     setErrMsg("Registration Failed");
+    //   }
+    //   errRef.current.focus();
+    // }
+  };
+
+  
+
+
+
+
+
+  //RELEVANTS
   const navigate = useNavigate()
  
-  const [username, setUserName] = useState('')
-  const [password, setPassword] = useState('')
+  
+  // const [password, setPassword] = useState('')
   
 
   return (
 
-    <form action='/dashboard'>
+    // <form action='/dashboard'>
+    <form>
 
       <Box>    
         
@@ -117,13 +215,14 @@ export default function Login() {
 
                       
                   >
-                    Username
+                    Username/Email
                   </Typography>
                   <TextField 
+                    {...register('email')}
                     fullWidth
                     color="primary"
                     label='Ferdnardjohn73'
-                    name
+                    name= 'email'
                     sx={{marginBottom: '1.5rem',}}
                     inputProps={{ 
                       marginBottom: '3rem',
@@ -156,8 +255,11 @@ export default function Login() {
                     Password
                   </Typography>
                   <TextField 
+                    {...register('password')}
                     fullWidth
                     label='**************'
+                    type= 'password'
+                    name= 'password'
                     inputProps={{ 
                     sx:{
                       "& label": {color: "#161616"},
@@ -248,7 +350,9 @@ export default function Login() {
                 
                   <Button 
                     onClick={() => navigate("/dashboard")} 
-                    fullWidth type="submit" variant='contained'
+                    fullWidth 
+                    type="submit" 
+                    variant='contained'
                     sx={{
                       "&:hover": {
                         backgroundColor: "#30F1C4",
@@ -258,7 +362,9 @@ export default function Login() {
                       textTransform: 'none'
                       
                     }}
-                    >Login</Button>
+                    >
+                      Login
+                    </Button>
 
                     <Typography
                       sx={{
@@ -270,19 +376,21 @@ export default function Login() {
                         lineHeight: '150%',
                       }} 
                     >
-                      Dont have an account? <Button variant="text"
-                onClick={() => navigate("/register")}
-                sx={{ 
-                  textTransform: 'none',
-                  fontFamily: 'Rubik',
-                  fontStyle: 'normal',
-                  fontWeight: '500',
-                  fontSize: '0.9rem',
-                  marginTop:'-3px',
-                  color: "#16453A",
-                }}
-                >
-                  Sign Up</Button>
+                      Dont have an account? 
+                      <Button variant="text"
+                        onClick={handleSubmit()}
+                        sx={{ 
+                          textTransform: 'none',
+                          fontFamily: 'Rubik',
+                          fontStyle: 'normal',
+                          fontWeight: '500',
+                          fontSize: '0.9rem',
+                          marginTop:'-3px',
+                          color: "#16453A",
+                        }}
+                      >
+                        Sign Up
+                      </Button>
                     </Typography>
                 
                 

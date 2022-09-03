@@ -5,12 +5,14 @@ import { Routes, Route, Outlet } from "react-router-dom";
 import Dashboard from './mycomponents/Dashboard';
 import Login from './mycomponents/Login';
 import Register from './mycomponents/Register';
+import Header from './mycomponents/Header';
 
 function App() {
   return (
     <>
       <div className="App">
-        <Routes>
+      {/* <Header /> */}
+        <Routes>          
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
