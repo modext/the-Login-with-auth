@@ -122,7 +122,8 @@ export default function SignUp() {
             <Grid container justifyContent="center">
               <Grid item>
                 <Link href="#" variant="body2">
-                  Already have an account? <Button variant="text"
+                  Already have an account? 
+                  <Button variant="text"
                 onClick={() => navigate("/")}
                 sx={{ 
                   textTransform: 'none',

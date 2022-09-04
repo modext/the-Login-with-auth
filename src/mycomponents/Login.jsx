@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import { Box, Button, Checkbox, Paper, FormControlLabel, TextField, Typography, FormGroup } from '@mui/material'
 import {Link, useNavigate } from "react-router-dom";
 import {toast} from 'react-toastify'
@@ -42,48 +42,64 @@ export default function Login() {
   const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-  const [validEmail, setValidEmail] = useState(false);
-  const [validName, setValidName] = useState(false);
-  const [userFocus, setUserFocus] = useState(false);
+  // const [validEmail, setValidEmail] = useState(false);
+  const [email, setEmail] = useState('');
+  // const [validName, setValidName] = useState('');
+  // const [userFocus, setUserFocus] = useState(false);
   const [password, setPassword] = useState("");
-  const [validPwd, setValidPwd] = useState(false);
+  // const [validPwd, setValidPwd] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   // const [user, setUser] = useState("");
   const [username, setUserName] = useState('')
+  // const userRef = useRef();
 
-  // useEffect(() => {
-  //   userRef.current.focus();
-  // }, []);
+  //  useEffect(() => {
+  //    userRef.current.focus();
+  //  }, []);
   useEffect(() => {
-    setUserName(USER_REGEX.test(username));
+    setUserName(username);
   }, [username]);
   // useEffect(() => {
   //   setValidEmail(USER_REGEX.test(email));
   // }, [email]);
   useEffect(() => {
-    setValidPwd(PWD_REGEX.test(password));
+    setPassword(password);
   }, [password]);
   // useEffect(() => {
   //   setErrMsg("");
   // }, [user, password]);
 
+
+
+  const handleSub = async (e) => {
+    e.preventDefault();
+    console.log(username)
+   console.log(password)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const v1 = USER_REGEX.test(username);
-    const v2 = PWD_REGEX.test(password);
-    if (!v1 || !v2) {
-      setErrMsg("Invalid Entry");
-      return;
-    }
-
+    // const v1 = USER_REGEX.test(username);
+    // const v2 = PWD_REGEX.test(password);
+    // if (!v1 || !v2) {
+    //   setErrMsg("Invalid Entry");
+    //   return;
+    // };
+    console.log(email)
+   console.log(password)
+    var axios = require('axios');
+    var data = ' '
+    
+    // var data = '{\r\n    "email": {"super@airvend.ng"},\r\n    "password": "Qwerty@123!!!!"\r\n}';
     var config = {
       method: 'post',
       url: 'https://adminstaging.airgate.ng/index.php/api/auth/login',
       headers: { },
-      data : {
-        username,
-        password,
-      }          
+      data : data
+    //   {
+    //     email,
+    //     password,
+    //   }          
     };
 
     axios(config)
@@ -150,8 +166,8 @@ export default function Login() {
         >
             
               <Paper
-                variant='outlined'
-                elevation={12}
+                // variant='outlined'
+                // elevation={12}
                   sx={{
                     width: {xs:'70%', sm:'60%',lg:'23%'},
                     alignItems: 'center',
@@ -225,7 +241,7 @@ export default function Login() {
                     name= 'email'
                     sx={{marginBottom: '1.5rem',}}
                     inputProps={{ 
-                      marginBottom: '3rem',
+                      
                     sx:{
                       "& label": {color: "#161616"},
                       backgroundColor: '#fafafa',
@@ -235,12 +251,14 @@ export default function Login() {
                       borderRadius: '0.5rem',
                       height: '1rem',                      
                       fontFamily:  'Rubik',
-                      
-                   }}
+                      }}
                     }
                       onChange={(e) => {
-                      setUserName(e.target.value)}}
-                    value={username}
+                      // setUserName(e.target.value)}}
+                      setEmail(e.target.value)}}
+                      // value={username}
+                      value={email}
+                    
                   />
                   <Typography
                     sx={{
@@ -274,7 +292,7 @@ export default function Login() {
                   }}
                   onChange={(e) => {
                     setPassword(e.target.value)}}
-                  value={password}
+                  
                   />
                 </Box>
 
@@ -349,7 +367,7 @@ export default function Login() {
                 </Box>
                 
                   <Button 
-                    onClick={() => navigate("/dashboard")} 
+                    onClick={handleSubmit}
                     fullWidth 
                     type="submit" 
                     variant='contained'
@@ -378,7 +396,7 @@ export default function Login() {
                     >
                       Dont have an account? 
                       <Button variant="text"
-                        onClick={handleSubmit()}
+                        onClick={() => navigate("/register")} 
                         sx={{ 
                           textTransform: 'none',
                           fontFamily: 'Rubik',
