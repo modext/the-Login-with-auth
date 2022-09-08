@@ -70,11 +70,41 @@ export default function Login() {
   // }, [user, password]);
 
 
-
-  const handleSub = async (e) => {
+  const handleSub = (e) => {
     e.preventDefault();
-    console.log(username)
-   console.log(password)
+    const login = useSelector((state) => state.status);
+    const dispatch = useDispatch();
+
+    var raw =JSON.stringify({
+       email : email, 
+      password: password 
+    }) 
+
+    // var raw = "{\r\n    \"email\": \"super@airvend.ng\",\r\n    \"password\": \"Qwerty@123!!!!\"\r\n}";
+
+    var requestOptions = {
+      method: 'POST',
+      body: raw,
+      redirect: 'follow',
+      // contentType : "application/json",
+      headers: { 'Content-Type': "application/json" }
+    };
+    
+    fetch("https://adminstaging.airgate.ng/index.php/api/auth/login", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        const newres = JSON.parse(result)
+        console.log( 'main', newres );
+        if(newres.status === true) {
+          window.localStorage.setItem('token', newres.data.access_token);
+          window.location.replace("/dashboard")
+        }
+      })
+      .catch(error => console.log('error', error));
+    
+    
+    console.log(email)
+    console.log(password)
   }
 
   const handleSubmit = async (e) => {
@@ -96,10 +126,6 @@ export default function Login() {
       url: 'https://adminstaging.airgate.ng/index.php/api/auth/login',
       headers: { },
       data : data
-    //   {
-    //     email,
-    //     password,
-    //   }          
     };
 
     axios(config)
@@ -109,28 +135,6 @@ export default function Login() {
     .catch(function (error) {
       console.log(error);
     });
-    // try {
-    //   const response = await axios.post(
-        
-    //     JSON.stringify({ user, password }),
-    //     {
-    //       headers: { "Content-Type": "application/json" },
-    //       withCredentials: true,
-    //     }
-    //   );
-    //   //clear state and controlled inputs
-    //   setUser("");
-    //   setPwd("");
-    // } catch (err) {
-    //   if (!err?.response) {
-    //     setErrMsg("No Server Response");
-    //   } else if (err.response?.status === 409) {
-    //     setErrMsg("Username Taken");
-    //   } else {
-    //     setErrMsg("Registration Failed");
-    //   }
-    //   errRef.current.focus();
-    // }
   };
 
   
@@ -148,8 +152,8 @@ export default function Login() {
 
   return (
 
-    // <form action='/dashboard'>
-    <form>
+    <form action='/dashboard'>
+    
 
       <Box>    
         
@@ -367,7 +371,7 @@ export default function Login() {
                 </Box>
                 
                   <Button 
-                    onClick={handleSubmit}
+                    onClick={handleSub}
                     fullWidth 
                     type="submit" 
                     variant='contained'

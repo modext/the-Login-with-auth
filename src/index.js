@@ -7,17 +7,17 @@ import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { counterReducer } from './services/authSlice';
 
-import {store} from './app/store';
+import {store} from './redux/store';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <Provider store={store}>     */}
+     <Provider store={store}>     
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    {/* </Provider> */}
+    </Provider> 
     
   </React.StrictMode>
 );

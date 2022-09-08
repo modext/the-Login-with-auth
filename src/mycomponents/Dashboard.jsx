@@ -12,6 +12,31 @@ export default function Login() {
 const username1 = 'John'
 const navigate = useNavigate()
 
+const handleSub = (e) => {
+  e.preventDefault();
+
+  var raw = "";
+  const token = window.localStorage.getItem("token");
+  console.log("maintok",  token)
+ 
+
+  var requestOptions = {
+    method: 'POST',
+    body: raw,
+    redirect: 'follow',
+    headers: { 'Content-Type': "application/json", "Authorization": `Bearer ${token}`  }
+  };
+  
+  fetch("https://adminstaging.airgate.ng/index.php/api/auth/logout", requestOptions)
+  .then(response => response.text())
+  .then(result => {
+      window.localStorage.removeItem('token')
+      window.location.replace("/")
+    
+  })
+  .catch(error => console.log('error', error));
+}
+
   return (
 
        
@@ -94,7 +119,7 @@ const navigate = useNavigate()
                                  
               </Box>
               <Button variant="text"
-                onClick={() => navigate("/")}
+                onClick={handleSub}
                 sx={{ 
                   top: '.625rem',
                   fontFamily: 'Rubik',
